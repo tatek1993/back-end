@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
 
     if (authorization) {
         jwt.verify(authorization, jwtSecret, (err, decodedToken) => {
-            if (error) {
+            if (err) {
                 res.status(401).json({ errorMessage: 'You are not authorized!'})
             } else {
                 req.decodedToken = decodedToken;

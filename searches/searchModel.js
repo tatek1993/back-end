@@ -5,9 +5,16 @@ module.exports = {
     // update, remove, find, findBy,
 };
 
+const mapStrain = (strain) => {
+    console.log(strain);
+    strain.effects = strain.effects.split(',');
+    strain.flavor = strain.flavor.split(',');
+    return strain;
+};
+
 const mapSearch = (search, results) => {
 
-    search.results = results;
+    search.results = results.map(mapStrain);
     search.effect = search.effect.split(',');
     search.flavor = search.flavor.split(',');
     search.symptoms = search.symptoms.split(',');
@@ -67,7 +74,7 @@ function getAllSearchesByUser(userId) {
                 .join('results as r', 'se.id', 'r.search_id')
                 .join('strains as str', 'str.strain', 'r.strain_name' )
                 .select('str.*', 'r.search_id')
-                .where('r.search_id', searchId)
+                .where('se.user_id', userId)
                 .orderBy('se.id', 'r.result_number')
                 .then(results => {
                     return searches.map(search => {
