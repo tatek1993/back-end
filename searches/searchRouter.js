@@ -15,6 +15,7 @@ router.post('/', (req, res) => {
         });
 });
 
+// get an entire search and its results
 router.get('/:id', (req, res) => {
     Search.findById(req.params.id)
     .then(search => {

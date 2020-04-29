@@ -1,7 +1,8 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-    add, find, findBy, findById, update, remove,
+    add, findById, 
+    // update, remove, find, findBy,
 };
 
 function add(search) { 
@@ -46,10 +47,10 @@ function findById(searchId) {
 
 
 
- // search = {
-    //     "user_id": 1,
-    //     "effect": [],
-    //     "flavor": [],
-    //     "symptoms": [],
-    //     "results":[one, two, three, four, five]
-    // }
+  search = {
+        "user_id": 1,
+        "effect": [],
+        "flavor": [],
+        "symptoms": [],
+        "results":[one, two, three, four, five]
+    }
