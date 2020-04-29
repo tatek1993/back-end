@@ -1,8 +1,17 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-    add, findById, 
+    add, findById, getAllSearchesByUser,
     // update, remove, find, findBy,
+};
+
+const mapSearch = (search, results) => {
+
+    search.results = results;
+    search.effect = search.effect.split(',');
+    search.flavor = search.flavor.split(',');
+    search.symptoms = search.symptoms.split(',');
+    return search;
 };
 
 function add(search) { 
@@ -18,14 +27,19 @@ function add(search) {
         .insert(searchRow, ['id'])
         .then(inserted => {
             const resultRows = search.results.map((strain, index) => {
+                console.log(inserted);
                 return {
-                    "search_id": inserted[0].id,
+                    "search_id": inserted[0],
                     "result_number": (index+1),
                     "strain_name": strain
                 }
             })
             return db('results')
                 .insert(resultRows)
+                .then(() => {
+                    search.id = inserted[0];
+                    return search;
+                })
         })
 }
 
@@ -33,19 +47,35 @@ function findById(searchId) {
     return db('results as r')
         .join('strains as str', 'str.strain', 'r.strain_name' )
         .select('str.*')
+        .orderBy('r.result_number')
         .where('r.search_id', searchId)
         .then(results => {
             return db('searches')
-            .where({ id })
+            .where({ id: searchId })
             .first()
             .then(search => {
-                search.results = results
-                return search
+                return mapSearch(search, results); 
             })
         })     
 }
 
-
+function getAllSearchesByUser(userId) {
+    return db('searches')
+        .where({user_id: userId})
+        .then(searches => {
+            return db('searches as se')
+                .join('results as r', 'se.id', 'r.search_id')
+                .join('strains as str', 'str.strain', 'r.strain_name' )
+                .select('str.*', 'r.search_id')
+                .where('r.search_id', searchId)
+                .orderBy('se.id', 'r.result_number')
+                .then(results => {
+                    return searches.map(search => {
+                        return mapSearch(search, results.filter(result => result.search_id == search.id));
+                    })
+                })
+        })
+}
 
 //   search = {
 //         "user_id": 1,

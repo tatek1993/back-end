@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Search = require('./searchModel.js');
 const db = require('../database/dbConfig.js');
 
+
 router.post('/', (req, res) => {
     const searchData = req.body;
 
@@ -15,7 +16,7 @@ router.post('/', (req, res) => {
         });
 });
 
-// get an entire search and its results
+// get a search and its results and the strain info for each result
 router.get('/:id', (req, res) => {
     Search.findById(req.params.id)
     .then(search => {
@@ -30,5 +31,17 @@ router.get('/:id', (req, res) => {
         res.status(500).json({ errorMessage: 'The Treatment Search could not be retrieved.'})
     });
 });
+
+router.get('/', (req, res) => {
+    let userId = req.decodedToken.subject;
+    Search.getAllSearchesByUser(userId)
+    .then(search => {
+        res.status(200).json(search)
+    })
+    .catch( err => {
+        console.log(err);
+        res.status(500).json({ errorMessage: 'The Treatment Search could not be retrieved.'})
+    });
+})
 
 module.exports = router;
