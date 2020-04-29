@@ -30,3 +30,5 @@ router.get('/:id', (req, res) => {
         res.status(500).json({ errorMessage: 'The Treatment Search could not be retrieved.'})
     });
 });
+
+module.exports = router;
