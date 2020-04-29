@@ -4,15 +4,7 @@ module.exports = {
     add, find, findBy, findById, update, remove,
 };
 
-function add(search) {
-    // search = {
-    //     "user_id": 1,
-    //     "effect": [],
-    //     "flavor": [],
-    //     "symptoms": [],
-    //     "results":[one, two, three, four, five]
-    // }
-    
+function add(search) { 
     let searchRow =
     {
         "user_id": search.user_id,
@@ -21,8 +13,6 @@ function add(search) {
         "symptoms": search.symptoms.toString()
     }
 
-    
-   
     return db('searches')
         .insert(searchRow, ['id'])
         .then(inserted => {
@@ -38,6 +28,28 @@ function add(search) {
         })
 }
 
+function findById(searchId) {
+    return db('results as r')
+        .join('strains as str', 'str.strain', 'r.strain_name' )
+        .select('str.*')
+        .where('r.search_id', searchId)
+        .then(results => {
+            return db('searches')
+            .where({ id })
+            .first()
+            .then(search => {
+                search.results = results
+                return search
+            })
+        })     
+}
 
 
 
+ // search = {
+    //     "user_id": 1,
+    //     "effect": [],
+    //     "flavor": [],
+    //     "symptoms": [],
+    //     "results":[one, two, three, four, five]
+    // }
