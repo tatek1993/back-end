@@ -45,13 +45,16 @@ exports.up = function(knex) {
       .notNullable()
       .primary();
     tbl
+      .string('type')
+      .notNullable()
+    tbl  
       .float('rating', 5)
       .notNullable();
     tbl
-      .string('flavor')
+      .string('effects')
       .notNullable();
     tbl
-      .string('effects')
+      .string('flavor')
       .notNullable();
     tbl
       .text('description', 1500)
