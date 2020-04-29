@@ -12,8 +12,8 @@ router.post('/register', (req, res) => {
 
     Users.add(user)
         .then(saved => {
-            res.status(201).json(saved);
-        })
+            res.status(201).json({message: `Welcome aboard, ${user.username}!`, id: saved.id});
+        })       
         .catch(error => {
             res.status(500).json({ errorMessage: 'There was an issue saving the user'});
             console.log('there was an issue saving the user', error);

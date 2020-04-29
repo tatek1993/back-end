@@ -12,6 +12,13 @@ exports.up = function(knex) {
     users
         .string('password', 128)
         .notNullable();
+
+    users
+        .boolean('over18')
+        .notNullable();
+        
+    users
+        .string('zipcode', 9)  
   })
 };
 
