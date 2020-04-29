@@ -12,7 +12,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use('/api/auth', authRouter);
-server.use('/api/searches')
+server.use('/api/searches', searchRouter);
 
 
 server.get('/', (req, res) => {
