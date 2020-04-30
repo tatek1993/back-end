@@ -13,8 +13,7 @@ exports.up = function(knex) {
     tbl
       .boolean('over18')
       .notNullable();
-    tbl
-      .string('zipcode', 9)  
+    
   })
 
   .createTable('searches', tbl => {
