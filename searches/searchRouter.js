@@ -72,7 +72,8 @@ router.put('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-    Search.remove(req.params.id)
+    let userId = req.decodedToken.subject;
+    Search.remove(req.params.id, userId)
       .then(search => {
           if (search === undefined) {
               res.status(404).json({message: "The search with the specified ID does not exist."})
