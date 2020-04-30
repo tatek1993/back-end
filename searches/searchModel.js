@@ -7,9 +7,13 @@ module.exports = {
 
 const mapStrain = (strain) => {
     
+    if(typeof strain === 'string') {
+        return strain
+    } else {
     strain.effects = strain.effects.split(',');
     strain.flavor = strain.flavor.split(',');
     return strain;
+    }
 };
 
 const mapSearch = (search, results) => {
@@ -78,13 +82,18 @@ function getAllSearchesByUser(userId) {
         .then(searches => {
             return db('searches as se')
                 .join('results as r', 'se.id', 'r.search_id')
-                .join('strains as str', 'str.strain', 'r.strain_name' )
-                .select('str.*', 'r.search_id')
+                // .join('strains as str', 'str.strain', 'r.strain_name' )
+                // .select('str.*', 'r.search_id')
+                .select('r.strain_name', 'r.search_id')
                 .where('se.user_id', userId)
                 .orderBy('se.id', 'r.result_number')
                 .then(results => {
                     return searches.map(search => {
-                        return mapSearch(search, results.filter(result => result.search_id == search.id));
+                        return mapSearch(
+                            search, 
+                            results.filter(result => result.search_id == search.id)
+                                    .map(result => result.strain_name)
+                        );
                     })
                 })
         })
