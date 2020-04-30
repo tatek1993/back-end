@@ -60,15 +60,22 @@ function add(search) {
         })
 }
 
-function findById(searchId) {
+function findById(searchId, userId) {
     return db('results as r')
         .join('strains as str', 'str.strain', 'r.strain_name' )
+        .join('searches as se', 'se.id', 'r.search_id')
         .select('str.*')
         .orderBy('r.result_number')
-        .where('r.search_id', searchId)
+        .where({
+            'r.search_id': searchId,
+            'se.user_id': userId
+        })
         .then(results => {
             return db('searches')
-            .where({ id: searchId })
+            .where({
+                id: searchId, 
+                user_id: userId
+            })
             .first()
             .then(search => {
                 return mapSearch(search, results); 
@@ -99,24 +106,37 @@ function getAllSearchesByUser(userId) {
         })
 }
 
-function update(update) {
+function update(update, userId) {
     
-    let promise = db('searches')
-        .where('id', update.id)    
-        .update(searchRow(update));
-
-    update.results.forEach((result, index) => {
-        
-        promise = promise.then(() => {
-            return db('results')
-            .where({
-                'search_id': update.id,
-                'result_number': index+1
-            })
-            .update(resultRow(update.id, index+1, result))
+    return db('searches')
+        .where({
+            id: update.id,
+            user_id: userId
         })
-    }) 
-    return promise;
+        .select('*')
+        .then(results => {
+            if(results.length > 0) {
+                let promise = db('searches')
+                .where('id', update.id)    
+                .update(searchRow(update));
+
+                update.results.forEach((result, index) => {
+                    
+                    promise = promise.then(() => {
+                        return db('results')
+                        .where({
+                            'search_id': update.id,
+                            'result_number': index+1
+                        })
+                        .update(resultRow(update.id, index+1, result))
+                    })
+                }) 
+                return promise;
+           
+            }
+            
+        })
+    
 }
 
 function remove(searchId) {
