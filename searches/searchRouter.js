@@ -69,4 +69,22 @@ router.put('/:id', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+    Search.remove(req.params.id)
+      .then(search => {
+          if (search === undefined) {
+              res.status(404).json({message: "The search with the specified ID does not exist."})
+          } else {
+              res.status(200).json(search)
+          }
+          
+      })
+      .catch(err => {
+          console.log(err);
+          res.status(500).json({ 
+              error: "The search could not be removed" 
+          });
+      });
+  });
+
 module.exports = router;

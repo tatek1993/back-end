@@ -1,7 +1,7 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-    add, findById, getAllSearchesByUser, update
+    add, findById, getAllSearchesByUser, update, remove
     // update, remove, find, findBy,
 };
 
@@ -108,6 +108,12 @@ function update(update) {
         })
     }) 
     return promise;
+}
+
+function remove(searchId) {
+    return db('searches')
+        .where('id', searchId)
+        .del()
 }
 
 //   search = {
