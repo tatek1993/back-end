@@ -18,7 +18,8 @@ router.post('/', (req, res) => {
 
 // get a search and its results and the strain info for each result
 router.get('/:id', (req, res) => {
-    Search.findById(req.params.id)
+    let userId = req.decodedToken.subject;
+    Search.findById(req.params.id, userId)
     .then(search => {
         if (search === undefined) {
             res.status(404).json({ errorMessage: "The Treatment Search with the specified ID does not exist."})
@@ -52,9 +53,10 @@ router.put('/:id', (req, res) => {
         res.status(400).json({ errorMessage: 'There must be 5 strain results.'})
         return;
     } 
-    Search.update(updatedSearch)
+    let userId = req.decodedToken.subject;
+    Search.update(updatedSearch, userId)
     .then(search => {
-        return Search.findById(req.params.id)
+        return Search.findById(req.params.id, userId)
         .then(search => {
             if(search === undefined) {
                 res.status(404).json({ errorMessage: "The search with the specified ID does not exist." })
