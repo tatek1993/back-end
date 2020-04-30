@@ -1,12 +1,12 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-    add, findById, getAllSearchesByUser,
+    add, findById, getAllSearchesByUser, update
     // update, remove, find, findBy,
 };
 
 const mapStrain = (strain) => {
-    console.log(strain);
+    
     strain.effects = strain.effects.split(',');
     strain.flavor = strain.flavor.split(',');
     return strain;
@@ -21,20 +21,26 @@ const mapSearch = (search, results) => {
     return search;
 };
 
+let searchRow = search => ({
+    "user_id": search.user_id,
+    "effect": search.effect.toString(),
+    "flavor": search.flavor.toString(),
+    "symptoms": search.symptoms.toString()
+});
+
+let resultRow = (search_id, result_number, strain_name) => ({
+    search_id,
+    result_number,
+    strain_name
+});
+
 function add(search) { 
-    let searchRow =
-    {
-        "user_id": search.user_id,
-        "effect": search.effect.toString(),
-        "flavor": search.flavor.toString(),
-        "symptoms": search.symptoms.toString()
-    }
 
     return db('searches')
-        .insert(searchRow, ['id'])
+        .insert(searchRow(search), ['id'])
         .then(inserted => {
             const resultRows = search.results.map((strain, index) => {
-                console.log(inserted);
+                
                 return {
                     "search_id": inserted[0],
                     "result_number": (index+1),
@@ -82,6 +88,26 @@ function getAllSearchesByUser(userId) {
                     })
                 })
         })
+}
+
+function update(update) {
+    
+    let promise = db('searches')
+        .where('id', update.id)    
+        .update(searchRow(update));
+
+    update.results.forEach((result, index) => {
+        
+        promise = promise.then(() => {
+            return db('results')
+            .where({
+                'search_id': update.id,
+                'result_number': index+1
+            })
+            .update(resultRow(update.id, index+1, result))
+        })
+    }) 
+    return promise;
 }
 
 //   search = {

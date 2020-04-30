@@ -44,4 +44,29 @@ router.get('/', (req, res) => {
     });
 })
 
+router.put('/:id', (req, res) => {
+    const updatedSearch = req.body;
+    updatedSearch.id = req.params.id;
+    if (updatedSearch.results.length ==! 5) {
+        console.log('There was a problem with your list of results', req.params.id, updatedSearch);
+        res.status(400).json({ errorMessage: 'There must be 5 strain results.'})
+        return;
+    } 
+    Search.update(updatedSearch)
+    .then(search => {
+        return Search.findById(req.params.id)
+        .then(search => {
+            if(search === undefined) {
+                res.status(404).json({ errorMessage: "The search with the specified ID does not exist." })
+            } else {
+                res.status(200).json({ message: 'Search successfully updated, good job!', search})
+            }
+        })
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({ errorMessage: 'That search information could not be updated.'})
+    })
+})
+
 module.exports = router;
