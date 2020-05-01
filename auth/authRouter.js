@@ -9,15 +9,19 @@ router.post('/register', (req, res) => {
     let user = req.body;
     const hash = bcrypt.hashSync(user.password);
     user.password = hash;
-
-    Users.add(user)
+    if(user.username.length > 0 && user.password.length > 0 && user.over18 == true) {
+        Users.add(user)
         .then(saved => {
             res.status(201).json({message: `Welcome aboard, ${user.username}!`, id: saved.id});
         })       
         .catch(error => {
             res.status(500).json({ errorMessage: 'There was an issue saving the user'});
             console.log('there was an issue saving the user', error);
-        });    
+        });  
+    } else {
+        res.status(400).json({ errorMessage: 'Invalid credentials. Must have a username, password, and be over 18.'});
+    }
+      
 });
 
 router.post('/login', (req, res) => {
