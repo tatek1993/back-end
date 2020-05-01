@@ -5,6 +5,7 @@ const db = require('../database/dbConfig.js');
 
 router.post('/', (req, res) => {
     const searchData = req.body;
+    searchData.user_id = req.decodedToken.subject;
 
     Search.add(searchData)
         .then(search => {
@@ -48,6 +49,8 @@ router.get('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const updatedSearch = req.body;
     updatedSearch.id = req.params.id;
+    updatedSearch.user_id = req.decodedToken.subject;
+    
     if (updatedSearch.results.length ==! 5) {
         console.log('There was a problem with your list of results', req.params.id, updatedSearch);
         res.status(400).json({ errorMessage: 'There must be 5 strain results.'})
