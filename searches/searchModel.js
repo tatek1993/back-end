@@ -139,9 +139,12 @@ function update(update, userId) {
     
 }
 
-function remove(searchId) {
+function remove(searchId, userId) {
     return db('searches')
-        .where('id', searchId)
+        .where({
+            'id': searchId,
+            'user_id': userId
+        })
         .del()
 }
 
