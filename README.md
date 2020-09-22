@@ -1,4 +1,4 @@
-# Medical Cabinet Back-End Guide
+# Medical Cabinet Back-End 
 
 MEMBERS
 ```
@@ -13,7 +13,7 @@ Chris: WEB 30
 Adrian: Front-End WEB31s
 ```
 ---------------
-
+# API Documentation
 **See below for more in depth information on each request type / endpoint**
 
 | Feature   |      Method      |  URL |
