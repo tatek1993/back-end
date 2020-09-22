@@ -2,9 +2,9 @@
 
 MEMBERS
 ```
+Backend: Tate 
 Data Engineering: Mason, Ping
 ML Engineering: Tatiana, Keanu
-Backend: Tate 
 
 WEB
 Jonathan: Front-End  WEB31
