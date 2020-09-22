@@ -1,18 +1,21 @@
-# back-end
+# Medical Cabinet Back-End
 
 PRODUCT VISION DOCUMENT
 
 This is the template for the Product Vision Document that teams complete after their initial icebreaker. The PVD is crucial to the planning phase and is mandatory for all groups to complete and submit to their Project Lead before starting their project.
 
 MEMBERS
+```
 Data Engineering: Mason, Ping
 ML Engineering: Tatiana, Keanu
-Backend: Tate, Ous B
-Web
+Backend: Tate 
+
+WEB
 Jonathan: Front-End  WEB31
 Juan: Front-end | WEB 29
 Chris: WEB 30
 Adrian: Front-End WEB31s
+```
 
 ☝️ Proposal
 
@@ -20,7 +23,7 @@ What problem does your app solve?
 
     Provides the strain needed based on users’ medical condition.
 
-Be as specific as possible; how does your app solve the problem?
+How does your app solve the problem?
 
     User is able to look up various strands, anonymously.
 
@@ -50,11 +53,13 @@ What do the top 3 similar apps do for their users?
 
 What 3rd party frameworks/libraries are you considering using?
 
-    React, Redux, Node.js, Keras, Tensorflow, Flask
+    React, Redux, Node.js, Knex.js, Keras, Tensorflow, Flask
 
 Do the APIs you need require you to contact them to gain access?
-In research - by monday 27 april
 Are you required to pay to use said API(s)?
+
+    No, the app uses a free API
+
 🧮 For Data Scientists
 
 Describe the established data source with at least rough data able to be provided on day one.
@@ -79,13 +84,16 @@ What kind of target output can you deliver to the Web/UX/iOS teams to work with?
 🎯 Target Audience
 
 Who is your target audience? Be specific.
+
     Individuals who seek an alternative to pharmaceutical drugs for treating their medical conditions.
 
 What feedback have you gotten from potential users?
+
     Pharmaceutical prices are unaffordable for many, but some are uneasy about using cannabis as an alternative.
 
 Have you validated this problem and your solution with a target audience? Describe how.
-    Yes, a few members working this current project get medicated for various ailments/conditions.
+
+    Yes, we have discussed what users are looking for in an app with several people who use prescription cannabis.
 
 
 🔑 Prototype Key Feature(s)
@@ -96,5 +104,4 @@ How long do you think it will take to implement these features?
 Do you anticipate working on stretch functionality after completion of a Minimal Viable Product?
     Yes, hopefully to have MVP completed by the 29th
 
-Stretch to be completed the following day.
 
