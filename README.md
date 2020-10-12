@@ -13,6 +13,12 @@ Chris: WEB 30
 Adrian: Front-End WEB31s
 ```
 ---------------
+# Database Schema
+**Schema created using [DB Designer](https://app.dbdesigner.net/)**
+
+![Database Schema Screenshot](images/medcabSchema.PNG)
+
+-------------------
 # API Documentation
 **See below for more in depth information on each request type / endpoint**
 
